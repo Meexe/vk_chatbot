@@ -1,7 +1,7 @@
+from random import randrange
 from flask import Flask, request
 from simple_settings import settings
 import vk
-from random import randrange
 
 
 class User:
