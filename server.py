@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from random import randrange
 from flask import Flask, request
 from simple_settings import settings
