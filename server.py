@@ -83,7 +83,7 @@ class Roulette:
         api.messages.send(user_id=[user.id, partner.id], message=settings.queue, version=5.87)
         self.new_room()
 
-    def process(self, user_id, body, sticker):
+    def process(self, user_id, body):
         try:
             func = self.commands[body]
             func(user_id)
@@ -91,10 +91,7 @@ class Roulette:
             user = self.get_user(user_id)
             if user:
                 if user.partner:
-                    if body:
-                        api.messages.send(user_id=user.partner.id, message=body, version=5.87)
-                    else:
-                        api.messages.sendSticker(user_id=user.partner.id, sticker_id=sticker, version=5.87)
+                    api.messages.send(user_id=user.partner.id, message=body, version=5.87)
 
         print("Болтают")
         for el in self.talking:
@@ -120,7 +117,7 @@ def get():
 
     user_id = message['object']['from_id']
     body = message['object']['text']
-    sticker = 0
+    sticker = True
     try:
         attachments = message['object']['attachments']
         url = ''
@@ -136,15 +133,17 @@ def get():
                 body += '\n' + url
 
             if element['type'] == 'sticker':
-                sticker = element['sticker']['sticker_id']
-                print(sticker)
+                sticker = False
 
     except KeyError:
         pass
 
     print(body)
 
-    roulette.process(user_id, body, sticker)
+    if sticker:
+        roulette.process(user_id, body)
+    else:
+        api.messages.send(user_id=user_id, message=settings.sticker_error, version=5.87)
 
     return 'ok'
 

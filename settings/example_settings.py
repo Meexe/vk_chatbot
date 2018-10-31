@@ -31,3 +31,7 @@ port = 8888
 auth_token = 'XXXXX'
 
 confirmation_token = 'XXXXX'
+
+sticker_error = '<-->\n' \
+                'Твои стикеры конечно круты, но пересылать их я не могу\n' \
+                '<-->' \
